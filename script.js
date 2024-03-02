@@ -1,5 +1,5 @@
 /** @format */
-
+const error = document.getElementById('error-massge');
 const loadCatagory = async () => {
   const res = await fetch(
     "https://openapi.programming-hero.com/api/news/categories"
@@ -9,7 +9,8 @@ const loadCatagory = async () => {
   // show catagory in the conatainer
   const catagoryContainer = document.getElementById("catagoryContainer");
   data.data.news_category.forEach((catagory) => {
-    console.log(catagory);
+
+
     const btn = document.createElement("button");
     btn.addEventListener('click', () => {
       const divContainer = document.getElementById("div-container");
@@ -32,10 +33,17 @@ const newLoad = async (id) => {
   );
   const data = await res.json();
   const singleData = data.data;
+  if(singleData.length === 0) {
+    error.classList.remove('hidden');
+  }
+  else {
+    error.classList.add('hidden')
+  }
   displayNews(singleData);
 };
 const displayNews = (allNews) => {
   allNews.forEach((news) => {
+    
     const div = document.createElement("div");
     div.classList = `flex gap-5 bg-slate-200 p-5 mb-5 rounded-lg`;
     const divContainer = document.getElementById("div-container");
@@ -74,7 +82,6 @@ const displayNews = (allNews) => {
                 </div>
         `;
     divContainer.appendChild(div);
-    console.log(news);
     
   });
 };
